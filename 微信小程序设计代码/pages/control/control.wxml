@@ -1,0 +1,217 @@
+<!-- pages/control/control.wxml -->
+<view class="page-container">
+
+  <view class="status-bar">
+    <view class="status-left">
+      <view class="status-dot {{connected ? 'online' : 'offline'}}"></view>
+      <text>{{connected ? '设备在线' : '设备离线'}}</text>
+      <text class="update-time">更新于 {{lastUpdateTime}}</text>
+    </view>
+  </view>
+
+  <view class="page-header">
+    <view class="header-left" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+      <text class="back-text">返回</text>
+    </view>
+    <text class="page-title">执行器控制</text>
+    <view class="header-right"></view>
+  </view>
+
+  <view class="device-list">
+
+    <view class="device-card">
+      <view class="device-main">
+        <view class="device-icon-wrap">🌀</view>
+        <view class="device-middle">
+          <text class="device-name">风扇</text>
+          <text class="device-category">通风系统 · 转速 {{devices[0].speed}}%</text>
+        </view>
+        <switch checked="{{devices[0].state}}" data-id="fan" bindchange="onDeviceToggle" color="#2196f3" />
+      </view>
+      <view class="device-slider-area">
+        <text class="slider-label">转速</text>
+        <slider min="0" max="100" step="1" data-id="fan" bindchange="onSliderChange" bindchanging="onSliderChanging" color="#2196f3" block-size="16" />
+        <text class="slider-value">{{_sliderDisplay_fan || devices[0].speed}}%</text>
+      </view>
+      <view class="device-mode-row">
+        <text class="mode-label">模式</text>
+        <view class="mode-btns">
+          <view class="mode-btn {{devices[0].mode === 0 ? 'active' : ''}}" data-id="fan" data-mode="0" bindtap="onModeChange">手动</view>
+          <view class="mode-btn {{devices[0].mode === 1 ? 'active' : ''}}" data-id="fan" data-mode="1" bindtap="onModeChange">自动</view>
+        </view>
+      </view>
+      <view class="device-footer">
+        <view class="status-tag {{devices[0].speed > 0 && devices[0].state ? 'on' : 'off'}}">{{devices[0].speed > 0 && devices[0].state ? '运行中' : '已关闭'}}</view>
+        <text class="mode-status">模式: {{devices[0].mode === 0 ? '手动' : '自动'}}</text>
+      </view>
+      <view class="cloud-status">
+        <text class="cloud-dot {{devices[0].cloudState === true ? 'on' : (devices[0].cloudState === false ? 'off' : 'none')}}"></text>
+        <text class="cloud-text">当前: {{devices[0].cloudState === true ? '运行中' : (devices[0].cloudState === false ? '已关闭' : '未知')}}</text>
+        <text class="cloud-speed" wx:if="{{devices[0].cloudSpeed !== null}}">转速 {{devices[0].cloudSpeed}}%</text>
+      </view>
+    </view>
+
+    <view class="device-card">
+      <view class="device-main">
+        <view class="device-icon-wrap">💦</view>
+        <view class="device-middle">
+          <text class="device-name">水泵</text>
+          <text class="device-category">灌溉系统</text>
+        </view>
+        <switch checked="{{devices[1].state}}" data-id="pump" bindchange="onDeviceToggle" color="#00bcd4" />
+      </view>
+      <view class="device-mode-row">
+        <text class="mode-label">模式</text>
+        <view class="mode-btns">
+          <view class="mode-btn {{devices[1].mode === 0 ? 'active' : ''}}" data-id="pump" data-mode="0" bindtap="onModeChange">手动</view>
+          <view class="mode-btn {{devices[1].mode === 1 ? 'active' : ''}}" data-id="pump" data-mode="1" bindtap="onModeChange">自动</view>
+        </view>
+      </view>
+      <view class="device-footer">
+        <view class="status-tag {{devices[1].state ? 'on' : 'off'}}">{{devices[1].state ? '运行中' : '已关闭'}}</view>
+        <text class="mode-status">模式: {{devices[1].mode === 0 ? '手动' : '自动'}}</text>
+      </view>
+      <view class="cloud-status">
+        <text class="cloud-dot {{devices[1].cloudState === true ? 'on' : (devices[1].cloudState === false ? 'off' : 'none')}}"></text>
+        <text class="cloud-text">当前: {{devices[1].cloudState === true ? '运行中' : (devices[1].cloudState === false ? '已关闭' : '未知')}}</text>
+      </view>
+    </view>
+
+    <view class="device-card">
+      <view class="device-main">
+        <view class="device-icon-wrap">💡</view>
+        <view class="device-middle">
+          <text class="device-name">LED补光灯</text>
+          <text class="device-category">光照系统 · 亮度 {{devices[2].brightness}}%</text>
+        </view>
+        <switch checked="{{devices[2].state}}" data-id="led" bindchange="onDeviceToggle" color="#ff9800" />
+      </view>
+      <view class="device-slider-area">
+        <text class="slider-label">亮度</text>
+        <slider min="0" max="100" step="1" data-id="led" bindchange="onSliderChange" bindchanging="onSliderChanging" color="#ff9800" block-size="16" />
+        <text class="slider-value">{{_sliderDisplay_led || devices[2].brightness}}%</text>
+      </view>
+      <view class="device-mode-row">
+        <text class="mode-label">模式</text>
+        <view class="mode-btns">
+          <view class="mode-btn {{devices[2].mode === 0 ? 'active' : ''}}" data-id="led" data-mode="0" bindtap="onModeChange">手动</view>
+          <view class="mode-btn {{devices[2].mode === 1 ? 'active' : ''}}" data-id="led" data-mode="1" bindtap="onModeChange">自动</view>
+        </view>
+      </view>
+      <view class="device-footer">
+        <view class="status-tag {{devices[2].brightness > 0 && devices[2].state ? 'on' : 'off'}}">{{devices[2].brightness > 0 && devices[2].state ? '运行中' : '已关闭'}}</view>
+        <text class="mode-status">模式: {{devices[2].mode === 0 ? '手动' : '自动'}}</text>
+      </view>
+      <view class="cloud-status">
+        <text class="cloud-dot {{devices[2].cloudState === true ? 'on' : (devices[2].cloudState === false ? 'off' : 'none')}}"></text>
+        <text class="cloud-text">当前: {{devices[2].cloudState === true ? '运行中' : (devices[2].cloudState === false ? '已关闭' : '未知')}}</text>
+        <text class="cloud-speed" wx:if="{{devices[2].cloudBrightness !== null}}">亮度 {{devices[2].cloudBrightness}}%</text>
+      </view>
+    </view>
+
+    <view class="device-card">
+      <view class="device-main">
+        <view class="device-icon-wrap">💨</view>
+        <view class="device-middle">
+          <text class="device-name">加湿器</text>
+          <text class="device-category">湿度控制</text>
+        </view>
+        <switch checked="{{devices[3].state}}" data-id="atomizer" bindchange="onDeviceToggle" color="#e91e63" />
+      </view>
+      <view class="device-mode-row">
+        <text class="mode-label">模式</text>
+        <view class="mode-btns">
+          <view class="mode-btn {{devices[3].mode === 0 ? 'active' : ''}}" data-id="atomizer" data-mode="0" bindtap="onModeChange">手动</view>
+          <view class="mode-btn {{devices[3].mode === 1 ? 'active' : ''}}" data-id="atomizer" data-mode="1" bindtap="onModeChange">自动</view>
+        </view>
+      </view>
+      <view class="device-footer">
+        <view class="status-tag {{devices[3].state ? 'on' : 'off'}}">{{devices[3].state ? '运行中' : '已关闭'}}</view>
+        <text class="mode-status">模式: {{devices[3].mode === 0 ? '手动' : '自动'}}</text>
+      </view>
+      <view class="cloud-status">
+        <text class="cloud-dot {{devices[3].cloudState === true ? 'on' : (devices[3].cloudState === false ? 'off' : 'none')}}"></text>
+        <text class="cloud-text">当前: {{devices[3].cloudState === true ? '运行中' : (devices[3].cloudState === false ? '已关闭' : '未知')}}</text>
+      </view>
+    </view>
+
+    <view class="device-card">
+      <view class="device-main">
+        <view class="device-icon-wrap">🔊</view>
+        <view class="device-middle">
+          <text class="device-name">音频播放</text>
+          <text class="device-category">声音系统</text>
+        </view>
+        <switch checked="{{devices[4].state}}" data-id="audio" bindchange="onDeviceToggle" color="#9c27b0" />
+      </view>
+      <view class="device-mode-row">
+        <text class="mode-label">模式</text>
+        <view class="mode-btns">
+          <view class="mode-btn {{devices[4].mode === 0 ? 'active' : ''}}" data-id="audio" data-mode="0" bindtap="onModeChange">手动</view>
+          <view class="mode-btn {{devices[4].mode === 1 ? 'active' : ''}}" data-id="audio" data-mode="1" bindtap="onModeChange">自动</view>
+        </view>
+      </view>
+      <view class="device-time-slots" wx:if="{{devices[4].timeSlots}}">
+        <text class="time-slots-label">自动播放时段</text>
+        <view class="time-slots-list">
+          <text class="time-slot-tag" wx:for="{{devices[4].timeSlots}}" wx:key="*this">{{item}}</text>
+        </view>
+      </view>
+      <view class="device-footer">
+        <view class="status-tag {{devices[4].state ? 'on' : 'off'}}">{{devices[4].state ? '运行中' : '已关闭'}}</view>
+        <text class="mode-status">模式: {{devices[4].mode === 0 ? '手动' : '自动'}}</text>
+      </view>
+      <view class="cloud-status">
+        <text class="cloud-dot {{devices[4].cloudState === true ? 'on' : (devices[4].cloudState === false ? 'off' : 'none')}}"></text>
+        <text class="cloud-text">当前: {{devices[4].cloudState === true ? '运行中' : (devices[4].cloudState === false ? '已关闭' : '未知')}}</text>
+      </view>
+    </view>
+
+    <view class="device-card">
+      <view class="device-main">
+        <view class="device-icon-wrap">🔔</view>
+        <view class="device-middle">
+          <text class="device-name">蜂鸣器</text>
+          <text class="device-category">报警系统</text>
+        </view>
+        <switch checked="{{devices[5].state}}" data-id="buzzer" bindchange="onDeviceToggle" color="#f44336" />
+      </view>
+      <view class="device-mode-row">
+        <text class="mode-label">模式</text>
+        <view class="mode-btns">
+          <view class="mode-btn {{devices[5].mode === 0 ? 'active' : ''}}" data-id="buzzer" data-mode="0" bindtap="onModeChange">手动</view>
+          <view class="mode-btn {{devices[5].mode === 1 ? 'active' : ''}}" data-id="buzzer" data-mode="1" bindtap="onModeChange">自动</view>
+        </view>
+      </view>
+      <view class="device-footer">
+        <view class="status-tag {{devices[5].state ? 'on' : 'off'}}">{{devices[5].state ? '运行中' : '已关闭'}}</view>
+        <text class="mode-status">模式: {{devices[5].mode === 0 ? '手动' : '自动'}}</text>
+      </view>
+      <view class="cloud-status">
+        <text class="cloud-dot {{devices[5].cloudState === true ? 'on' : (devices[5].cloudState === false ? 'off' : 'none')}}"></text>
+        <text class="cloud-text">当前: {{devices[5].cloudState === true ? '运行中' : (devices[5].cloudState === false ? '已关闭' : '未知')}}</text>
+      </view>
+    </view>
+
+  </view>
+
+  <view class="upload-status" wx:if="{{uploadStatus}}">
+    <view class="upload-status-header">
+      <text class="upload-dot {{uploadStatus}}"></text>
+      <text class="upload-text {{uploadStatus}}">
+        {{uploadStatus === 'sending' ? '上传中...' : (uploadStatus === 'success' ? '上传成功' : '上传失败')}}
+      </text>
+      <text class="upload-time" wx:if="{{uploadTime}}">{{uploadTime}}</text>
+    </view>
+    <text class="upload-device" wx:if="{{uploadDevice}}">设备: {{uploadDevice}}</text>
+    <text class="upload-err" wx:if="{{uploadMsg}}">{{uploadMsg}}</text>
+  </view>
+
+  <view class="cmd-preview" wx:if="{{cmdPreview}}">
+    <text class="cmd-preview-title">📋 最近下发的命令JSON</text>
+    <text class="cmd-preview-content">{{cmdPreview}}</text>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

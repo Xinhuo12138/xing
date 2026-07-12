@@ -1,0 +1,144 @@
+/* pages/index/index.wxss */
+
+.page-container { display: flex; flex-direction: column; height: 100vh; background: #f0f7f2; }
+
+/* ===== 状态栏 ===== */
+.status-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12rpx 24rpx; background: linear-gradient(135deg,#2d8a4e,#3a9d5c);
+  color: #fff; flex-shrink: 0; font-size: 24rpx;
+}
+.status-left { display: flex; align-items: center; gap: 10rpx; }
+.status-dot { width: 14rpx; height: 14rpx; border-radius: 50%; }
+.status-dot.online { background: #69f0ae; box-shadow: 0 0 10rpx #69f0ae80; }
+.status-dot.offline { background: #ff5252; }
+.status-right { display: flex; align-items: center; gap: 12rpx; }
+.update-time { font-size: 20rpx; opacity: 0.8; }
+.refresh-btn { width: 44rpx; height: 44rpx; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.2); border-radius: 50%; font-size: 28rpx; }
+.refreshing { animation: spin 1s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* ===== 调试面板 ===== */
+.debug-panel { background: #1a1a2e; color: #e0e0e0; padding: 16rpx 20rpx; font-size: 22rpx; flex-shrink: 0; max-height: 460rpx; overflow-y: auto; }
+.debug-title { display: flex; justify-content: space-between; font-weight: 600; font-size: 24rpx; color: #ffd54f; margin-bottom: 10rpx; }
+.debug-toggle { color: #90caf9; font-weight: normal; }
+.debug-row { display: flex; gap: 12rpx; margin-bottom: 6rpx; }
+.debug-key { color: #90caf9; min-width: 140rpx; }
+.debug-val { color: #e0e0e0; word-break: break-all; }
+.debug-val.green { color: #69f0ae; }
+.debug-val.red { color: #ff5252; font-weight: 600; }
+.debug-block { margin-top: 10rpx; }
+.debug-block-title { color: #ffd54f; font-size: 22rpx; display: block; margin-bottom: 6rpx; }
+.debug-json { display: block; white-space: pre-wrap; font-size: 20rpx; color: #8bc34a; background: #0d0d1a; padding: 12rpx; border-radius: 8rpx; max-height: 220rpx; overflow-y: auto; line-height: 1.5; }
+.debug-toggle-btn { position: fixed; top: 110rpx; right: 24rpx; z-index: 99; background: rgba(0,0,0,0.6); color: #fff; padding: 8rpx 16rpx; border-radius: 20rpx; font-size: 22rpx; }
+
+/* ===== Tab导航 ===== */
+.tab-nav { display: flex; background: #fff; border-bottom: 2rpx solid #e8f0ea; flex-shrink: 0; }
+.tab-item { flex: 1; text-align: center; padding: 22rpx 0; font-size: 28rpx; color: #888; position: relative; }
+.tab-item.active { color: #2d8a4e; font-weight: 600; }
+.tab-line { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 48rpx; height: 6rpx; border-radius: 3rpx; background: #2d8a4e; opacity: 0; transition: opacity 0.2s; }
+.tab-line.show { opacity: 1; }
+.tab-content { flex: 1; overflow: hidden; }
+.tab-scroll { height: 100%; padding: 20rpx 24rpx; box-sizing: border-box; }
+
+/* ===== 环境数据网格 ===== */
+.data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18rpx; padding-bottom: 20rpx; }
+.data-card { position: relative; background: #fff; border-radius: 18rpx; padding: 22rpx; box-shadow: 0 4rpx 16rpx rgba(45,138,78,0.06); }
+.data-card.normal { border-left: 6rpx solid #4caf50; }
+.data-card.warning { border-left: 6rpx solid #ff9800; }
+.data-card.danger { border-left: 6rpx solid #f44336; }
+.card-icon { font-size: 36rpx; display: block; }
+.card-label { font-size: 22rpx; color: #999; display: block; margin: 6rpx 0 2rpx; }
+.card-value-wrap { display: flex; align-items: baseline; gap: 4rpx; }
+.card-value { font-size: 40rpx; font-weight: 700; color: #1a1a1a; }
+.card-unit { font-size: 22rpx; color: #999; }
+.card-range { font-size: 20rpx; color: #bbb; display: block; margin-top: 4rpx; }
+.card-dot { position: absolute; top: 14rpx; right: 14rpx; width: 14rpx; height: 14rpx; border-radius: 50%; }
+.card-dot.normal { background: #4caf50; }
+.card-dot.warning { background: #ff9800; }
+.card-dot.danger { background: #f44336; animation: blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ===== 天气 ===== */
+.weather-list { display: flex; flex-direction: column; gap: 18rpx; padding-bottom: 20rpx; }
+.weather-card { background: #fff; border-radius: 18rpx; padding: 28rpx; box-shadow: 0 4rpx 16rpx rgba(45,138,78,0.06); }
+.w-header { display: flex; justify-content: space-between; margin-bottom: 14rpx; }
+.w-day { font-size: 32rpx; font-weight: 600; }
+.w-date { font-size: 24rpx; color: #999; }
+.w-body { display: flex; align-items: center; justify-content: center; gap: 16rpx; padding: 16rpx 0; }
+.w-icon { font-size: 64rpx; }
+.w-text { font-size: 34rpx; color: #333; }
+.w-temps { display: flex; justify-content: center; align-items: center; gap: 36rpx; padding: 14rpx 0; border-top: 2rpx solid #f0f7f2; border-bottom: 2rpx solid #f0f7f2; }
+.w-temps view { display: flex; flex-direction: column; align-items: center; gap: 4rpx; }
+.tmp-label { font-size: 22rpx; color: #999; }
+.tmp-high { font-size: 34rpx; font-weight: 600; color: #ff5722; }
+.tmp-low { font-size: 34rpx; font-weight: 600; color: #2196f3; }
+.tmp-divider { width: 2rpx; height: 50rpx; background: #e0e0e0; }
+.w-wind { text-align: center; padding-top: 14rpx; font-size: 24rpx; color: #888; }
+
+/* ===== 执行器控制 ===== */
+.device-list { display: flex; flex-direction: column; gap: 16rpx; padding-bottom: 20rpx; }
+.device-card { background: #fff; border-radius: 18rpx; padding: 24rpx; box-shadow: 0 4rpx 16rpx rgba(45,138,78,0.06); }
+.device-main { display: flex; align-items: center; gap: 16rpx; }
+.device-icon-wrap { width: 72rpx; height: 72rpx; display: flex; align-items: center; justify-content: center; background: #f0f7f2; border-radius: 16rpx; font-size: 40rpx; }
+.device-middle { flex: 1; }
+.device-name { font-size: 28rpx; font-weight: 600; display: block; }
+.device-category { font-size: 22rpx; color: #999; display: block; margin-top: 4rpx; }
+
+/* 滑块 */
+.device-slider-area { display: flex; align-items: center; gap: 12rpx; margin-top: 16rpx; padding-top: 14rpx; border-top: 2rpx solid #f0f7f2; }
+.slider-label { font-size: 24rpx; color: #666; min-width: 50rpx; }
+.device-slider-area slider { flex: 1; }
+.slider-value { font-size: 24rpx; color: #2d8a4e; font-weight: 500; min-width: 52rpx; text-align: right; }
+
+/* 模式按钮 */
+.device-mode-row { display: flex; align-items: center; justify-content: space-between; margin-top: 16rpx; padding-top: 14rpx; border-top: 2rpx solid #f0f7f2; }
+.mode-label { font-size: 24rpx; color: #666; }
+.mode-btns { display: flex; gap: 12rpx; }
+.mode-btn { padding: 8rpx 28rpx; border-radius: 24rpx; font-size: 24rpx; background: #f5f5f5; color: #999; border: 2rpx solid #e0e0e0; }
+.mode-btn.active { background: #e8f5e9; color: #2d8a4e; border-color: #2d8a4e; font-weight: 500; }
+.mode-btn:active { opacity: 0.7; }
+
+/* 状态标签 */
+.device-footer { margin-top: 12rpx; display: flex; justify-content: space-between; align-items: center; }
+.status-tag { display: inline-block; padding: 6rpx 20rpx; border-radius: 20rpx; font-size: 22rpx; }
+.status-tag.on { background: #e8f5e9; color: #2d8a4e; }
+.status-tag.off { background: #f5f5f5; color: #bbb; }
+.mode-status { font-size: 22rpx; color: #999; }
+
+/* 云平台状态 */
+.cloud-status { margin-top: 10rpx; padding-top: 10rpx; border-top: 2rpx dashed #e0e0e0; display: flex; align-items: center; gap: 8rpx; flex-wrap: wrap; }
+.cloud-dot { width: 12rpx; height: 12rpx; border-radius: 50%; }
+.cloud-dot.on { background: #69f0ae; }
+.cloud-dot.off { background: #bbb; }
+.cloud-dot.none { background: #ffd54f; }
+.cloud-text { font-size: 22rpx; color: #888; }
+.cloud-speed { font-size: 20rpx; color: #aaa; margin-left: auto; }
+
+/* 自动播放时段 */
+.device-time-slots { margin-top: 12rpx; padding-top: 12rpx; border-top: 2rpx solid #f0f7f2; }
+.time-slots-label { font-size: 22rpx; color: #888; display: block; margin-bottom: 8rpx; }
+.time-slots-list { display: flex; gap: 10rpx; flex-wrap: wrap; }
+.time-slot-tag { padding: 6rpx 18rpx; border-radius: 20rpx; font-size: 22rpx; background: #f3e5f5; color: #7b1fa2; border: 2rpx solid #ce93d8; font-weight: 500; }
+
+/* 上传状态 */
+.upload-status { margin-top: 16rpx; padding: 16rpx; background: #1a1a2e; border-radius: 14rpx 14rpx 0 0; border-bottom: 2rpx solid #333; }
+.upload-status-header { display: flex; align-items: center; gap: 10rpx; }
+.upload-dot { width: 16rpx; height: 16rpx; border-radius: 50%; }
+.upload-dot.sending { background: #ffd54f; animation: blink 0.5s infinite; }
+.upload-dot.success { background: #69f0ae; }
+.upload-dot.fail { background: #ff5252; }
+.upload-text { font-size: 24rpx; font-weight: 500; }
+.upload-text.sending { color: #ffd54f; }
+.upload-text.success { color: #69f0ae; }
+.upload-text.fail { color: #ff5252; }
+.upload-time { font-size: 20rpx; color: #666; margin-left: auto; }
+.upload-device { font-size: 20rpx; color: #888; display: block; margin-top: 6rpx; }
+.upload-err { font-size: 20rpx; color: #ff5252; display: block; margin-top: 4rpx; }
+
+/* 命令预览 */
+.cmd-preview { padding: 16rpx; background: #1a1a2e; border-radius: 0 0 14rpx 14rpx; }
+.cmd-preview-title { font-size: 22rpx; color: #ffd54f; display: block; margin-bottom: 10rpx; }
+.cmd-preview-content { display: block; white-space: pre-wrap; font-size: 20rpx; color: #8bc34a; line-height: 1.6; }
+
+.safe-bottom { height: 40rpx; }
