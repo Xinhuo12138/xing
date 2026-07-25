@@ -146,9 +146,6 @@ graph TB
 
 ### 编译与烧录
 1. 克隆本仓库：
-   ```bash
-   git clone https://github.com/yourname/mushroom-monitor.git
-   ```
 2. 使用 RT-Thread Studio 导入工程，或使用 Keil 打开 `.uvprojx`。
 3. 配置 `rtconfig.h` 中的传感器引脚、Wi-Fi 账号密码、OneNET 三元组。
 4. 编译并烧录到 STM32G474。
@@ -183,10 +180,8 @@ mushroom-monitor/
 ---
 
 ## 👥 贡献者
-
-- **作者**：Your Name（可根据实际情况填写）
-- **指导老师**：XXX 教授
-- **相关博客**：[CSDN 技术分享](https://blog.csdn.net/xxx)（记录调试过程中的典型问题与解决方案）
+- **作者**：星火
+- **相关博客**：[CSDN 技术分享]((https://blog.csdn.net/weixin_48194744?type=blog))（记录调试过程中的典型问题与解决方案）
 
 ---
 
@@ -199,9 +194,7 @@ mushroom-monitor/
 ## 📞 联系与交流
 
 如有问题或建议，欢迎提交 Issue 或通过以下方式联系：
-- Email：yourname@example.com
-- 微信公众号：智能菌菇养殖
-
----
+- Email：1762501894@qq.com
+- 
 
 **⭐ 如果这个项目对您有帮助，请点个 Star 支持一下！**
